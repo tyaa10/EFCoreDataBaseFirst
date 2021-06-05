@@ -19,6 +19,8 @@ namespace EFCoreDataBaseFirst
 
         public virtual DbSet<Author> Authors { get; set; }
         public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -75,6 +77,49 @@ namespace EFCoreDataBaseFirst
                     .HasForeignKey(d => d.AuthorId)
                     .HasConstraintName("Book_Author_id_fk");
             });
+            
+            /* modelBuilder.Entity<Group>(entity =>
+            {
+                entity.HasKey(e => e.Id)
+                    .HasName("Group_pk")
+                    .IsClustered(false);
+
+                entity.ToTable("Groups");
+
+                entity.HasIndex(e => e.Name, "Group_name_uindex")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<Student>(entity =>
+            {
+                entity.HasKey(e => e.Id)
+                    .HasName("Student_pk")
+                    .IsClustered(false);
+
+                entity.HasIndex(e => e.Name, "Student_name_uindex")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.GroupId).HasColumnName("group_id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("name");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.Students)
+                    .HasForeignKey(d => d.GroupId)
+                    .HasConstraintName("Student_Group_id_fk");
+            }); */
 
             OnModelCreatingPartial(modelBuilder);
         }

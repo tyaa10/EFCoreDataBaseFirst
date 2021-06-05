@@ -11,6 +11,7 @@ namespace EFCoreDataBaseFirst
         {
             Console.WriteLine("Hello EF Core!");
             LibraryContext context = new LibraryContext();
+            // context.ChangeTracker.LazyLoadingEnabled = false;
             /* context.Books.Select(b => $"{b.Title} ({b.Author.Name})")
                 .ToList().ForEach(Console.WriteLine); */
             /* context.Books
@@ -46,9 +47,38 @@ namespace EFCoreDataBaseFirst
                 // .First();
                 // .FirstOrDefault();
                 .SingleOrDefault(); */
-            var result = context.Authors
+            /* var result = context.Authors
                 .Find(1008);
-            Console.WriteLine($"{result.Name} ({context.Books.Where(b => b.AuthorId == 1008).Count()})");
+            Console.WriteLine(result.Books.Count); */
+            // var result = context.Books.Find(1);
+            /* var result =
+                context.Books.Include(b => b.Author)
+                    .SingleOrDefault(b => b.Id == 1); */
+            /* var result = context.Books.Find(1);
+            Console.WriteLine(result.Title);
+            Console.WriteLine(result.Author != null ? result.Author.Name : "No Author Info");
+            context.Entry(result).Reference(b => b.Author).Load();
+            Console.WriteLine(result.Author != null ? result.Author.Name : "No Author Info");
+            // Console.WriteLine($"{result.Name} ({context.Books.Where(b => b.AuthorId == 1008).Count()})"); */
+            var g1 = new Group() {Name = "911"};
+            context.Groups.Add(g1);
+            context.Students.Add(new Student() {Name = "The First Student", Group = g1});
+            context.SaveChanges();
+            context.Groups.Select(g => $"{g.Name} (${g.Students.Count} students)")
+                .ToList()
+                .ForEach(Console.WriteLine);
+            g1.Name = "911-2";
+            context.SaveChanges();
+            context.Groups.Select(g => $"{g.Name} (${g.Students.Count} students)")
+                .ToList()
+                .ForEach(Console.WriteLine);
+            context.Students.Remove(
+                context.Students.Where(s => s.GroupId == g1.Id).SingleOrDefault()
+            );
+            context.SaveChanges();
+            context.Groups.Select(g => $"{g.Name} (${g.Students.Count} students)")
+                .ToList()
+                .ForEach(Console.WriteLine);
         }
     }
 }
