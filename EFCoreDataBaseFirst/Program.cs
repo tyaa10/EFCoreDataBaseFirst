@@ -12,9 +12,9 @@ namespace EFCoreDataBaseFirst
     {
         static void Main(string[] args)
         {
-            var root = Directory.GetCurrentDirectory();
-            var dotenv = Path.Combine(root, "config.yaml");
-            DotEnv.Load(dotenv);
+            //var root = Directory.GetCurrentDirectory();
+            //var dotenv = Path.Combine(root, "config.yaml");
+            //DotEnv.Load(dotenv);
             Console.WriteLine("Hello EF Core!");
             LibraryContext context = new LibraryContext();
             // context.ChangeTracker.LazyLoadingEnabled = false;
@@ -120,6 +120,7 @@ namespace EFCoreDataBaseFirst
             context.Groups.Add(g2);
             Teacher teacher01 = new Teacher() { Name = "Teacher01" };
             teacher01.Groups.Add(g2);
+            
             context.Teachers.Add(teacher01);
             Teacher teacher02 = new Teacher() { Name = "Teacher02" };
             context.Teachers.Add(teacher02);
@@ -133,6 +134,11 @@ namespace EFCoreDataBaseFirst
             context.SaveChanges();
             
             PrintTeachers(context);
+            teacher01.Groups.Clear();
+            teacher02.Groups.Remove(g2);
+            context.Groups.Remove(g2);
+            context.SaveChanges();
+            PrintTeachers(context);
         }
 
         private static void PrintTeachers(LibraryContext context)
@@ -145,5 +151,6 @@ namespace EFCoreDataBaseFirst
                 return sb.ToString();
             }).ToList().ForEach(Console.WriteLine);
         }
+
     }
 }
