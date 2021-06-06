@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Channels;
@@ -11,6 +12,9 @@ namespace EFCoreDataBaseFirst
     {
         static void Main(string[] args)
         {
+            var root = Directory.GetCurrentDirectory();
+            var dotenv = Path.Combine(root, ".yaml");
+            DotEnv.Load(dotenv);
             Console.WriteLine("Hello EF Core!");
             LibraryContext context = new LibraryContext();
             // context.ChangeTracker.LazyLoadingEnabled = false;

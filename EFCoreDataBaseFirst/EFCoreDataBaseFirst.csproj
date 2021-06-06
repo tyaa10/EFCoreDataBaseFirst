@@ -11,6 +11,15 @@
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.6" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-preview.4.21253.7" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0-preview.4.21253.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove=".yaml" />
+      <EmbeddedResource Include=".yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>
