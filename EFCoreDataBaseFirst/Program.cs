@@ -66,6 +66,19 @@ namespace EFCoreDataBaseFirst
             context.Entry(result).Reference(b => b.Author).Load();
             Console.WriteLine(result.Author != null ? result.Author.Name : "No Author Info");
             // Console.WriteLine($"{result.Name} ({context.Books.Where(b => b.AuthorId == 1008).Count()})"); */
+
+            try
+            {
+                context.Database.ExecuteSqlRaw("DELETE GroupTeacher WHERE 2 * 2 = 4");
+                context.Database.ExecuteSqlRaw("DELETE Students WHERE 2 * 2 = 4");
+                context.Database.ExecuteSqlRaw("DELETE Groups WHERE 2 * 2 = 4");
+                context.Database.ExecuteSqlRaw("DELETE Teachers WHERE 2 * 2 = 4");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            
             // создание объекта сущности Группа,
             // не связанного с БД
             var g1 = new Group() {Name = "911"};
@@ -114,6 +127,16 @@ namespace EFCoreDataBaseFirst
             teacher02.Groups.Add(g2);
             context.SaveChanges();
 
+            PrintTeachers(context);
+
+            teacher02.Name = "Teacher03";
+            context.SaveChanges();
+            
+            PrintTeachers(context);
+        }
+
+        private static void PrintTeachers(LibraryContext context)
+        {
             context.Teachers.Include(t => t.Groups).ToList().Select(t => {
                 StringBuilder sb = new StringBuilder(t.Name);
                 sb.Append(" ( ");
