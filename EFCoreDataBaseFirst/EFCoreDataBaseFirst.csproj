@@ -17,7 +17,7 @@
 
     <ItemGroup>
       <None Remove=".yaml" />
-      <EmbeddedResource Include=".yaml">
+      <EmbeddedResource Include="config.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
     </ItemGroup>

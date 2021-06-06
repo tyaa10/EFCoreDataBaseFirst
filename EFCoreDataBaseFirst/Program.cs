@@ -13,7 +13,7 @@ namespace EFCoreDataBaseFirst
         static void Main(string[] args)
         {
             var root = Directory.GetCurrentDirectory();
-            var dotenv = Path.Combine(root, ".yaml");
+            var dotenv = Path.Combine(root, "config.yaml");
             DotEnv.Load(dotenv);
             Console.WriteLine("Hello EF Core!");
             LibraryContext context = new LibraryContext();
