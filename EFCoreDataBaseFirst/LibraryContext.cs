@@ -21,6 +21,7 @@ namespace EFCoreDataBaseFirst
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Teacher> Teachers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
