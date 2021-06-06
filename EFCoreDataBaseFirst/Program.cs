@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Channels;
 using Microsoft.EntityFrameworkCore;
 
@@ -87,7 +89,7 @@ namespace EFCoreDataBaseFirst
                 .ToList()
                 .ForEach(Console.WriteLine);
             // в слое логики удаляем объект студента
-            context.Students.Remove(
+            /*context.Students.Remove(
                 context.Students.Where(s => s.GroupId == g1.Id).SingleOrDefault()
             );
             // отображаем удаление в БД
@@ -95,7 +97,26 @@ namespace EFCoreDataBaseFirst
             // просматриваем изменения, снова прочитав данные из базы
             context.Groups.Select(g => $"{g.Name} (${g.Students.Count} students)")
                 .ToList()
-                .ForEach(Console.WriteLine);
+                .ForEach(Console.WriteLine);*/
+
+            Group g2 = new Group() { Name = "Group01" };
+            context.Groups.Add(g2);
+            Teacher teacher01 = new Teacher() { Name = "Teacher01" };
+            teacher01.Groups.Add(g2);
+            context.Teachers.Add(teacher01);
+            Teacher teacher02 = new Teacher() { Name = "Teacher02" };
+            context.Teachers.Add(teacher02);
+            teacher02.Groups.Add(g1);
+            teacher02.Groups.Add(g2);
+            context.SaveChanges();
+
+            context.Teachers.Include(t => t.Groups).ToList().Select(t => {
+                StringBuilder sb = new StringBuilder(t.Name);
+                sb.Append(" ( ");
+                t.Groups.ToList().ForEach(g => sb.Append(g.Name + " "));
+                sb.Append(" ) ");
+                return sb.ToString();
+            }).ToList().ForEach(Console.WriteLine);
         }
     }
 }
